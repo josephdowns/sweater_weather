@@ -1,8 +1,8 @@
 class Api::V1::ForecastController < ApplicationController
   def index
     geocode = MapquestFacade.get_geocode(params[:location])
-    binding.pry
-
-    render json: ForecastSerializer.new(geocode.lat, geocode.lng)
+    forecast = ForecastFacade.forecast(geocode.lat, geocode.lng)
+binding.pry
+    render json: ForecastSerializer.new(forecast)
   end
 end
