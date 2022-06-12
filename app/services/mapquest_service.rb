@@ -11,7 +11,6 @@ class MapquestService
 
   def address_to_geocode(address)
     response = conn.get("address?location=#{address}")
-    binding.pry
     parse_json(response)
   end
 end
