@@ -2,6 +2,7 @@ class Forecast
   attr_reader :current_weather, :daily_weather, :hourly_weather
 
   def initialize(data)
+    @id = nil
     @current_weather = CurrentForecast.new(data[:current])
     @daily_weather = five_day_forecast(data[:daily][0..4])
     @hourly_weather = eight_hour_forecast(data[:hourly][0..7])
