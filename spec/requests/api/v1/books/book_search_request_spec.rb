@@ -7,16 +7,15 @@ RSpec.describe "book search request" do
     expect(response).to be_successful
     results = JSON.parse(response.body, symbolize_names: true)[:data]
     expect(results).to be_a(Hash)
-    results.each do |result|
-      expect(result).to have_key(:id)
-      expect(result).to have_key(:books)
-      expect(result).to have_key(:attributes)
-      expect(result[:attributes]).to have_key(:destination)
-      expect(result[:attributes]).to have_key(:forecast)
-      expect(result[:attributes][:forecast]).to have_key(:summary)
-      expect(result[:attributes][:forecast]).to have_key(:temperature)
-      expect(results[:attributes][:books]).to be_a(Array)
-    end
+    expect(results).to have_key(:id)
+
+    expect(results).to have_key(:attributes)
+    expect(results[:attributes]).to have_key(:destination)
+    expect(results[:attributes]).to have_key(:forecast)
+    expect(results[:attributes][:forecast]).to have_key(:summary)
+    expect(results[:attributes][:forecast]).to have_key(:temperature)
+    expect(results[:attributes]).to have_key(:books)
+    expect(results[:attributes][:books]).to be_a(Array)
 
   end
 end
