@@ -16,6 +16,7 @@ RSpec.describe "book search request" do
     expect(results[:attributes][:forecast]).to have_key(:temperature)
     expect(results[:attributes]).to have_key(:books)
     expect(results[:attributes][:books]).to be_a(Array)
+    expect(results[:attributes][:books].count).to eq(5)
 
   end
 end
