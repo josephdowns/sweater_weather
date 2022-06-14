@@ -2,22 +2,23 @@ require 'rails_helper'
 
 RSpec.describe "user request" do
   before(:each) do
-    headers = {
+    @headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     }
 
-    body = {
+    @body = {
       'email': 'example@example.com',
       'password': 'password',
       'password_confirmation': 'password'
     }
 
-    post '/api/v1/users', headers: headers, params: JSON.generate(body)
+    post '/api/v1/users', headers: @headers, params: JSON.generate(@body)
   end
 
   it "creates a user" do
     created_user = User.last
+    binding.pry
     user = JSON.parse(response.body, symbolize_names: true)[:data]
 
     expect(response).to be_successful
