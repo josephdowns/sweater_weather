@@ -69,4 +69,26 @@ RSpec.describe "user request" do
     expect(response.status).to eq(400)
     expect(message[:error]).to eq("Passwords must match")
   end
+
+  it "throws an error if email has been used" do
+    megan = User.create(email: 'megan@gmail.com', password: 'youth',
+      api_key: '12345f')
+
+    headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+    }
+
+    body = {
+    'email': 'megan@gmail.com',
+    'password': 'password',
+    'password_confirmation': 'password'
+    }
+
+    post '/api/v1/users', headers: headers, params: JSON.generate(body)
+    message = JSON.parse(response.body, symbolize_names: true)
+
+    expect(response.status).to eq(404)
+    expect(message[:error]).to eq("Cannot save user")
+  end
 end
