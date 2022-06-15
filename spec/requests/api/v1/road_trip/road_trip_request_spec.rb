@@ -71,12 +71,27 @@ RSpec.describe "road trip requests" do
     expect(info[:type]).to eq("roadtrip")
     expect(info).to have_key(:attributes)
     expect(info[:attributes]).to have_key(:start_city)
-    expect(info[:attributes][:start_city]).to eq("Denver, CO")
+    expect(info[:attributes][:start_city]).to eq("New York, NY")
     expect(info[:attributes]).to have_key(:end_city)
-    expect(info[:attributes][:end_city]).to eq("Pueblo, CO")
+    expect(info[:attributes][:end_city]).to eq("Los Angeles, CA")
     expect(info[:attributes]).to have_key(:travel_time)
     expect(info[:attributes]).to have_key(:weather_at_eta)
     expect(info[:attributes][:weather_at_eta]).to have_key(:temperature)
     expect(info[:attributes][:weather_at_eta]).to have_key(:conditions)
+  end
+
+  it "cannot do oceans" do
+    body = {
+      'origin': "New York, NY",
+      'destination': "London, UK",
+      'api_key': @user.api_key
+    }
+
+    post '/api/v1/road_trip', headers: @header, params: JSON.generate(body)
+    info = JSON.parse(response.body, symbolize_names: true)[:data]
+
+    expect(info[:attributes][:travel_time]).to eq("impossible")
+    expect(info[:attributes][:weather_at_eta][:conditions]).to eq("")
+    expect(info[:attributes][:weather_at_eta][:temperature]).to eq("")
   end
 end

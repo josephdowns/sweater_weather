@@ -6,7 +6,11 @@ class RoadTripFacade
 
     def new_trip(origin, destination)
       trip = service.roadtrip(origin, destination)
-      trip[:route][:formattedTime]
+      if trip[:info][:statuscode] == 402
+        return "Error"
+      else
+        return trip[:route][:formattedTime]
+      end
     end
   end
 end

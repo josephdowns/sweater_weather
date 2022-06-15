@@ -10,16 +10,16 @@ class ForecastFacade
     end
 
     def future_forecast(lat, lng, trip_time)
+      eta = hours(trip_time)
       forecast = service.get_data(lat, lng)
       hourly_weather = forecast[:hourly].map do |hour|
         HourlyForecast.new(hour)
       end
-      eta = hours(trip_time)
-      hourly_weather[eta]
+      return hourly_weather[eta]
     end
 
     def hours(trip_time)
-      if trip_time.split(':')[0].to_i > 8
+      trip_time.split(':')[0].to_i
     end
   end
 end
